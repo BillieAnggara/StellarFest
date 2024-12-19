@@ -8,12 +8,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Connect {
-
 	private final String userName = "root";
 	private final String passWord = "";
 	private final String DATABASE = "stellarfest";
 	private final String HOST = "localhost:3306";
-	private final String CONNECTION = String.format("jdbc:mysql://%s/%s", HOST,DATABASE);
 	
 	public ResultSet resultSet;
 	public ResultSetMetaData resultSetMetaData;
