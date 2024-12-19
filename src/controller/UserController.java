@@ -71,13 +71,13 @@ public class UserController {
 		if (email == null || email.isBlank()) {
 	        return "Email cannot be empty.";
 	    }
-		if (!isUnique(email)) {
+		if (!isUnique(email, password)) {
 	        return "Email or Username already exists. Please use a different one.";
 	    }
 	    if (name == null || name.isBlank()) {
 	        return "Username cannot be empty.";
 	    }
-	    if (!isUnique(name)) {
+	    if (!isUnique(name, password)) {
 	        return "Email or Username already exists. Please use a different one.";
 	    }
 	    if (password == null || password.isBlank()) {
@@ -145,10 +145,10 @@ public class UserController {
 	   return rowsAffected > 0;
    }
 	
-	private boolean isUnique(String value) {
+	private boolean isUnique(String email, String password) {
 	    String query = String.format(
 	        "SELECT COUNT(*) AS count FROM users WHERE user_email = '%s' OR user_name = '%s'",
-	        value
+	        email, password
 	    );
 
 	    try (ResultSet resultSet = connect.execute(query)) {
