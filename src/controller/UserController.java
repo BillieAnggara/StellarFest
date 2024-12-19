@@ -139,10 +139,39 @@ public class UserController {
 		String userId = "UID" + (getUserList().size() + 1);
 		String query = String.format("INSERT INTO users (user_id, user_email, user_name, user_password, user_role) "
 		   		+ "VALUES ('%s', '%s', '%s', '%s', '%s')", userId, email, name, password, role);
-		   
-	   int rowsAffected = connect.executeUpdate(query);
-		   
-	   return rowsAffected > 0;
+		
+		try {
+			if(query != null) {
+				if(role.equals("Event Organizer")) {
+					
+					String queryEventOrganizer = String.format("INSERT INTO eventorganizer (organizer_id)"
+					   		+ "VALUES ('%s')", userId);
+					connect.executeUpdate(queryEventOrganizer);
+					
+				} else if(role.equals("Guest")) {
+					
+					String queryGuest = String.format("INSERT INTO guests (guest_id)"
+					   		+ "VALUES ('%s')", userId);
+					connect.executeUpdate(queryGuest);
+					
+				} else if(role.equals("Vendor")) {
+					
+					String queryVendor = String.format("INSERT INTO vendors (vendor_id)"
+					   		+ "VALUES ('%s')", userId);
+					connect.executeUpdate(queryVendor);
+					
+				}
+				
+				int rowsAffected = connect.executeUpdate(query);
+				
+				return rowsAffected > 0;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	   
+		return false;
    }
 	
 	private boolean isUnique(String email, String password) {
