@@ -17,7 +17,6 @@ import view.ViewRegister;
 
 public class EventController {
 	
-	private ViewEvent eventView;
 	private ViewCreateEvent createEventView;
     private Connect connect;
     
@@ -49,31 +48,6 @@ public class EventController {
 	
 	        }
 		});
-	}
-	
-	private ArrayList<Event> getEventList(){
-		ArrayList<Event> eventArray = new ArrayList<>();
-		   
-		String query = "SELECT * FROM events";
-		   
-		try(ResultSet resultSet = connect.execute(query)){
-			while(resultSet.next()) {
-				String eventId = resultSet.getString("event_id");
-				String eventName = resultSet.getString("event_name");
-				String eventDate = resultSet.getString("event_date");
-				String eventLocation = resultSet.getString("event_location");
-				String eventDesc = resultSet.getString("event_description");
-				String organizerId = resultSet.getString("organizer_id");
-				   
-				Event event = new Event(eventId, eventName, eventDate, eventLocation, eventDesc, organizerId);
-				   
-				eventArray.add(event);
-			}
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-		   
-		return eventArray;
 	}
 	
 //	private String getOrganizerId(){
