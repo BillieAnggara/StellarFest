@@ -61,7 +61,10 @@ public class UserController {
 	            String isChecked = checkLoginInput(userEmail, userPassword);
 	            loginView.addMessage(isChecked);
 	            if(isChecked.equals("Login Succeeded.")) {
+//	            	User user = login(userEmail, userPassword);
+//	            	if(user != null) {
 	            	Main.redirect(eventView.getScene());
+//	            	}
 	            }
 			}
 		});
@@ -102,13 +105,13 @@ public class UserController {
 	    if (password.length() < 5) {
 	        return "Password must contain at least 5 characters.";
 	    }
-	    boolean isValid = login(email, password);
-	    if(isValid) {
-	    	Main.redirect(eventView.getScene());
+	    User user = login(email, password);
+	    if(user != null) {
+	    	return "Login Succeeded.";
 	    }else {
 	    	loginView.addMessage("Invalid email or password. Please try again.");
 	    }
-	    return "Login Succeeded.";
+	    return "Login Failed.";
 	}
 	
 	private ArrayList<User> getUserList(){
@@ -191,23 +194,53 @@ public class UserController {
 	    return false;
 	}
 
-	private boolean login(String email, String password) {
+//	private boolean login(String email, String password) {
+//	    // SQL query to validate email and password
+//	    String query = String.format(
+//	        "SELECT COUNT(*) AS count FROM users WHERE user_email = '%s' AND user_password = '%s'", 
+//	        email, password
+//	    );
+//
+//	    try (ResultSet resultSet = connect.execute(query)) {
+//	        if (resultSet.next()) {
+//	            int count = resultSet.getInt("count");
+//	            return count > 0;
+//	        }
+//	    } catch (Exception e) {
+//	        e.printStackTrace();
+//	    }
+//	    return false;
+//	}
+	
+	private User login(String email, String password) {
 	    // SQL query to validate email and password
 	    String query = String.format(
-	        "SELECT COUNT(*) AS count FROM users WHERE user_email = '%s' AND user_password = '%s'", 
+	        "SELECT * FROM users WHERE user_email = '%s' AND user_password = '%s'", 
 	        email, password
 	    );
 
 	    try (ResultSet resultSet = connect.execute(query)) {
 	        if (resultSet.next()) {
-	            int count = resultSet.getInt("count");
-	            return count > 0;
+//	            // map user data to user model
+	        	if(resultSet.getString("user_email").equals(email)) {
+	        		String userId = resultSet.getString("user_id");
+		        	String userEmail = resultSet.getString("user_email");
+		        	String userName = resultSet.getString("user_name");
+		        	String userRole = resultSet.getString("user_role");
+		        	String userPassword = "SECRET";
+		        	User user = new User(userId, userEmail, userName, userPassword, userRole);
+		        	
+		            return user;
+	        	} else return null;
+	        	
 	        }
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
-	    return false;
+	    return null;
 	}
+	
+	
 
 
     
