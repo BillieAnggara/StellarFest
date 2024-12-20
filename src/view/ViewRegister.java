@@ -44,7 +44,7 @@ public class ViewRegister {
         userPasswordField = new TextField();
         Label userRoleLabel = new Label("Role: ");
         roleCombo = new ComboBox<>();
-        roleCombo.getItems().addAll("Event Organzier", "Vendor", "Guest");
+        roleCombo.getItems().addAll("Event Organizer", "Vendor", "Guest");
  
         registerButton = new Button("Register");
         messageLabel = new Label();
