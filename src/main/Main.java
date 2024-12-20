@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import view.ViewEvent;
 import view.ViewLogin;
 import view.ViewRegister;
+import model.User;
 
 public class Main extends Application {
 
