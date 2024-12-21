@@ -13,7 +13,7 @@ public class Connect {
 	private final String DATABASE = "stellarfest";
 	private final String HOST = "localhost";
 	private final String PORT = "3306";
-
+	
 	private final String CONNECTION = String.format("jdbc:mysql://%s:%s/%s?user=%s&password=%s", HOST, PORT, DATABASE, userName, passWord);
 
 	
