@@ -7,6 +7,7 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
+import view.ViewCreateEvent;
 import view.ViewEvent;
 import view.ViewLogin;
 import view.ViewRegister;
@@ -15,9 +16,6 @@ import model.User;
 public class Main extends Application {
 
     private static Stage stage;
-    private MenuBar menuBar;
-    private Menu menu1, menu2;
-    private MenuItem item1, item2;
     
     public static void redirect(Scene newScene) {
         stage.setScene(newScene);
@@ -39,31 +37,53 @@ public class Main extends Application {
         ViewLogin loginView = new ViewLogin();
         ViewEvent eventView = new ViewEvent();
         UserController controller = new UserController(registerView, loginView, eventView);
+        ViewCreateEvent createEventView = new ViewCreateEvent();
 
-        MenuBar firstMenuBar = new MenuBar();
-        Menu menu1 = new Menu("Login");
-        Menu menu2 = new Menu("Register");
-        MenuItem item1 = new MenuItem("Go to Login page");
-        MenuItem item2 = new MenuItem("Go to Register page");
+        //MenuBar Login/register
+        MenuBar uMenuBar = new MenuBar();
+        Menu uMenu1 = new Menu("Login");
+        Menu uMenu2 = new Menu("Register");
+        MenuItem uItem1 = new MenuItem("Go to Login page");
+        MenuItem uItem2 = new MenuItem("Go to Register page");
 
-        // Add items to the menus
-        menu1.getItems().add(item1);
-        menu2.getItems().add(item2);
-        firstMenuBar.getMenus().addAll(menu1, menu2);
+        uMenu1.getItems().add(uItem1);
+        uMenu2.getItems().add(uItem2);
+        uMenuBar.getMenus().addAll(uMenu1, uMenu2);
 
-        // Event handlers for navigation
-        item1.setOnAction(event -> {
-            loginView.addMenuBar(firstMenuBar); // Attach MenuBar to login view
+        uItem1.setOnAction(event -> {
+            loginView.addMenuBar(uMenuBar);
             redirect(loginView.getScene());
         });
 
-        item2.setOnAction(event -> {
-            registerView.addMenuBar(firstMenuBar); // Attach MenuBar to register view
+        uItem2.setOnAction(event -> {
+            registerView.addMenuBar(uMenuBar);
             redirect(registerView.getScene());
         });
+        
+        //MenuBar content
+        MenuBar contentMenuBar = new MenuBar();
+        Menu cmenu1 = new Menu("Event");
+        Menu cmenu2 = new Menu("Profile");
+        MenuItem cItem1 = new MenuItem("View Event");
+        MenuItem cItem2  = new MenuItem("Create Event");
+        MenuItem cItem3 = new MenuItem("Change Profile");
 
-        // Initially attach MenuBar to login view
-        loginView.addMenuBar(firstMenuBar);
+        cmenu1.getItems().addAll(cItem1, cItem2);
+        cmenu2.getItems().add(cItem3);
+        contentMenuBar.getMenus().addAll(cmenu1, cmenu2);
+
+        cItem1.setOnAction(event -> {
+            eventView.addMenuBar(contentMenuBar);
+            redirect(eventView.getScene());
+        });
+
+        cItem2.setOnAction(event -> {
+            createEventView.addMenuBar(contentMenuBar);
+            redirect(createEventView.getScene());
+        });
+
+        loginView.addMenuBar(uMenuBar);
+        eventView.addMenuBar(contentMenuBar);
         
         // Set the Scene and Stage
         primaryStage.setTitle("StellarFest");
