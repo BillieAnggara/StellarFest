@@ -9,6 +9,32 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
+import utils.Logged;
+
+public class ViewEvent {
+
+    private BorderPane bp;
+    private Scene eventScene;
+    private Label title;
+
+    public ViewEvent() {
+        this.bp = new BorderPane();
+        this.eventScene = new Scene(bp, 800, 600);
+
+        this.title = new Label(); // Initialize the label but don't set text yet
+        title.setAlignment(Pos.CENTER);
+        bp.setCenter(title);
+
+        updateTitle(); // Set the initial label text
+    }
+
+    public void updateTitle() {
+        String name = Logged.getLoggedUser() == null ? "guest" : Logged.getLoggedUser().getUsername();
+        title.setText("Event Page, Logged as " + name);
+    }
+
+    public Scene getScene() {
+=======
 import javafx.scene.layout.VBox;
 import model.Event;
 import model.User;
@@ -56,6 +82,7 @@ public class ViewEvent {
 	}
 	
 	public Scene getScene() {
+        main
         return eventScene;
     }
 	

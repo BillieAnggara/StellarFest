@@ -12,6 +12,7 @@ import utils.Connect;
 import view.ViewEvent;
 import view.ViewLogin;
 import view.ViewRegister;
+import utils.Logged;
 
 public class UserController {
 
@@ -63,6 +64,7 @@ public class UserController {
 	            if(isChecked.equals("Login Succeeded.")) {
 //	            	User user = login(userEmail, userPassword);
 //	            	if(user != null) {
+	            	eventView.updateTitle();
 	            	Main.redirect(eventView.getScene());
 //	            	}
 	            }
@@ -105,8 +107,8 @@ public class UserController {
 	    if (password.length() < 5) {
 	        return "Password must contain at least 5 characters.";
 	    }
-	    User user = login(email, password);
-	    if(user != null) {
+	    boolean user = login(email, password);
+	    if(user) {
 	    	return "Login Succeeded.";
 	    }else {
 	    	loginView.addMessage("Invalid email or password. Please try again.");
@@ -212,7 +214,7 @@ public class UserController {
 //	    return false;
 //	}
 	
-	private User login(String email, String password) {
+	private boolean login(String email, String password) {
 	    // SQL query to validate email and password
 	    String query = String.format(
 	        "SELECT * FROM users WHERE user_email = '%s' AND user_password = '%s'", 
@@ -230,14 +232,17 @@ public class UserController {
 		        	String userPassword = "SECRET";
 		        	User user = new User(userId, userEmail, userName, userPassword, userRole);
 		        	
-		            return user;
-	        	} else return null;
+		        	System.out.println(user.getUsername());
+		        	
+		        	Logged.login(user);
+		            return true;
+	        	} else return false;
 	        	
 	        }
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
-	    return null;
+	    return false;
 	}
 	
 	
